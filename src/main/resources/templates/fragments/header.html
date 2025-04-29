@@ -17,14 +17,14 @@
         </ul>
         <th:block sec:authorize="isAnonymous()">
             <div class="col-md-3 text-end">
-                <a href="../member/login" class="btn btn-outline-primary me-2">Login</a>
-                <a href="../member/signup" class="btn btn-primary">Sign-Up</a>
+                <a href="/member/login" class="btn btn-outline-primary me-2">Login</a>
+                <a href="/member/signup" class="btn btn-primary">Sign-Up</a>
             </div>
         </th:block>
         <th:block sec:authorize="isAuthenticated()">
             <div class="col-md-3 text-end">
-                <a href="../member/logout" class="btn btn-outline-primary me-2">LogOut</a>
-                <a href="../member/info"  class="btn btn-primary">
+                <a href="/member/logout" class="btn btn-outline-primary me-2">LogOut</a>
+                <a href="/member/info"  class="btn btn-primary">
                     <span th:text="${#authentication.principal.loggedMember.userName}"></span>
 
 <!--                    <th:block th:if="${#authentication.principal.loggedMember.renameProfile == null}">-->
