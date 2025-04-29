@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1" aria-label="Bootstrap">
+                <svg class="bi" width="30" height="24" aria-hidden="true">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+            </a>
+            <span class="mb-3 mb-md-0 text-body-secondary">© 2025 Company, Inc</span>
+        </div>
+
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li class="ms-3"><a class="text-body-secondary" href="#" aria-label="Instagram">
+                <svg class="bi" width="24" height="24" aria-hidden="true">
+                    <use xlink:href="#instagram"></use>
+                </svg>
+            </a></li>
+            <li class="ms-3"><a class="text-body-secondary" href="#" aria-label="Facebook">
+                <svg class="bi" width="24" height="24">
+                    <use xlink:href="#facebook"></use>
+                </svg>
+            </a></li>
+        </ul>
+    </footer>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" tabindex="=-1" id="my-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- elvis operator -->
+                <!-- ex) ${modalDto?.title}의 값이 null일 경우 null 처리 -->
+                <h5 class="modal-title" th:text="${modalDto?.title}">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" th:text="${modalDto?.content}">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="my-toast" class="toast text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex justify-content-between align-item-center p-3">
+            <div class="toast-body">
+                <span th:text="${toastDto?.content}">정종인님</span>
+            </div>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript"> /* th:inline 쓰면 스크립트에서 ${modalDto.isShow} 사용가능 */
+// const myModal = document.querySelector("#my-modal");
+const myModal = new bootstrap.Modal("#my-modal");
+const isShow = /*[[${modalDto?.isShow}]]*/ false;
+if (isShow) {
+    myModal.show();
+}
+
+const myToast = new bootstrap.Toast("#my-toast", {delay: 3000});
+const isToastShow = /*[[${toastDto?.isShow}]]*/ false; /* 주석이 아니라 하나의 표현식/ null이면 false가 들어가고 null이 아니면 타임리프 표현식 작동  */
+if (isToastShow) {
+    myToast.show();
+}
+
+</script>
+</html>

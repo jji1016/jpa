@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::myHead('SIGN IN')}"></head>
+
+<body>
+<header th:replace="~{fragments/header}"></header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h2 class="my-5">VIEW</h2>  <!--mt-1~5 mb-1~5 my-1~5 -->
+            <div class="col-12">
+                <label for="title" class="form-label fw-bold">TITLE</label>
+                <input type="text" class="form-control" id="title" placeholder="제목작성" name="title"
+                       th:value="${questionDto.title}" readonly>
+            </div>
+            <div class="col-12">
+                <label for="content" class="form-label fw-bold">CONTENT</label>
+                <textarea type="text" class="form-control" id="content" placeholder="내용작성" name="content"
+                          th:text="${questionDto.content}" readonly></textarea>
+            </div>
+
+            <div class="col-12">
+                <a class="btn btn-primary" href="" th:href="@{/question/modify/{id}(id = ${questionDto.id})}">MODIFY</a>
+            </div>
+
+            <div class="mt-5">
+                <form th:action="@{|/comment/write/${questionDto.id}|}" method="post">
+                    <div class="col-12">
+                        <label for="comment" class="form-label fw-bold">CONTENT</label>
+                        <textarea type="text" class="form-control" id="comment" placeholder="댓글 작성"
+                                  name="content"></textarea>
+                        <button class="btn btn-primary" id="btn-comment">COMMENT</button>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <ul id="comment_list">
+                    <th:block th:each="item:${questionDto.commentList}">
+                        <li class="d-flex justify-content-between mb-2">
+                            <span th:text="${item.content}"></span>
+                            <div>
+                                <button class="btn btn-sm btn-primary btn-del" th:data-id="${item.id}">DEL</button>
+                            </div>
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+<footer th:replace="~{fragments/footer}"></footer>
+<script th:inline="javascript">
+    const sendURL = /*[[|/comment/write-ajax/${questionDto.id}|]]*/ "/comment/write-ajax/1";
+    const btnCommet = document.querySelector("#btn-comment");
+    const comment = document.querySelector("#comment");
+    const commentList = document.querySelector("#comment_list");
+    btnCommet.addEventListener("click", (e) => {
+        e.preventDefault();
+        const sendData = {content: comment.value}
+        fetch(sendURL, {
+            method: "post",
+            headers: {"Content-Type": "application/json;charset=UTF-8"},
+            body: JSON.stringify(sendData)
+        })
+            .then(response => response.json())
+            .then(json => {
+                console.log(json);
+                commentList.innerHTML += `<li class="d-flex justify-content-between mb-2">
+                <span>${json.comment.content}</span>
+                <div><button class="btn btn-sm btn-primary btn-del" data-id="${json.comment.id}">DEL</button></div>
+                </li>`;
+                comment.value="";
+            })
+    })
+    //이벤트 위임
+    commentList.addEventListener("click", (e) => {
+        // console.log(e.currentTarget);
+        // console.log(e.target());
+        const btn = e.target.closest("button"); //가장 가까운 버튼
+        if (btn.classList.contains("btn-del")) {
+            const id = btn.dataset.id;
+            //여기 눌렀을때 ajax처리
+            console.log("id: "+id)
+            fetch("/comment/delete/" + id, {
+                method: "delete"
+            })
+                .then(response => response.json())
+                .then(json => {
+                    console.log(json);
+                    if(json.isCommentDelete === true){
+                        btn.parentNode.parentNode.remove();
+                    }
+                })
+        }
+    })
+</script>
+</body>
+</html>

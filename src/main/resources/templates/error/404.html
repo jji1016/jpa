@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>404</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url("/images/error-404.png") no-repeat center #2eb5ea;
+            background-size: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h3 {
+            color: #fff;
+            font-size: 5vw;
+        }
+        a {
+            text-decoration: none;
+            padding: 20px 40px;
+            background-color: #000;
+            color: #fff;
+            border-radius: 100px;
+            margin-top: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h3 th:text="${msg}">error</h3>
+    <a href="/">HOME</a>
+</body>
+</html>

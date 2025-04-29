@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::myHead('SIGN IN')}"></head>
+
+<body>
+<header th:replace="~{fragments/header}"></header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h2 class="my-5">WRITE</h2>  <!--mt-1~5 mb-1~5 my-1~5 -->
+            <form class="row g-3" name="signin" th:action="@{/question/write}" th:method="post">
+                <div class="col-12">
+                    <label for="title" class="form-label fw-bold">TITLE</label>
+                    <input type="text" class="form-control" id="title" placeholder="제목작성" name="title">
+                </div>
+                <div class="col-12">
+                    <label for="content" class="form-label fw-bold">CONTENT</label>
+                    <textarea type="text" class="form-control" id="content" placeholder="내용작성" name="content"></textarea>
+                </div>
+
+                <div class="col-12">
+                    <button class="btn btn-primary" id="btn-signin">WRITE</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>
