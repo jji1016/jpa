@@ -47,6 +47,7 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService{
         }
 
 
+
         Member returnMember = null;
         Optional<Member> findMember = memberRepository.findByUserID(socialUserInfo.getProviderId());
         if(findMember.isPresent()){
